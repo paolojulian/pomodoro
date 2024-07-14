@@ -1,4 +1,3 @@
-
 // const CACHE_NAME = 'pomodoro-app-v1';
 // const urlsToCache = [
 //   '/',
