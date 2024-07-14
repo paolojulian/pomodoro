@@ -2,8 +2,8 @@ import AppAudio from './Audio.js';
 import ControlButtons from './ControlButtons.js';
 import DoneModal from './DoneModal.js';
 import Images from './Images.js';
-import TimerWorker from './TimerWorker.js';
-import Timer from './Timer.js';
+import TimerWorker from './AppTimerWorker.js';
+import Timer from './AppTimer.js';
 
 /**
  * @typedef {'initial' | 'focused' | 'taking-a-break' | 'finished-break-time' | 'finished-focus-time'} States
