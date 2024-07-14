@@ -21,21 +21,29 @@ export default class DoneModal {
    */
   tapToProceedBtnEl;
 
-  constructor() {
+  /**
+   *
+   * @param {() => void} onClose
+   */
+  constructor(onClose) {
     this.modalContainerEl = document.getElementById('doneModal');
     if (!this.modalContainerEl) {
       throw new Error('doneModal element not found');
     }
-    this.titleEl = this.modalContainerEl.getElementById('doneModalTitle');
+    this.titleEl = document.getElementById('doneModalTitle');
     if (!this.titleEl) {
       throw new Error('doneModalTitle element not found');
     }
 
-    this.tapToProceedBtnEl =
-      this.modalContainerEl.getElementById('tapToProceedBtn');
+    this.tapToProceedBtnEl = document.getElementById('tapToProceedBtn');
     if (!this.tapToProceedBtnEl) {
       throw new Error('tapToProceedBtn element not found');
     }
+
+    this.modalContainerEl.addEventListener('click', () => {
+      onClose();
+      this.closeModal();
+    });
   }
 
   /**

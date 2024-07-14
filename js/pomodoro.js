@@ -86,12 +86,23 @@ export default class Pomodoro {
 
     this.appAudio = new AppAudio();
 
-    this.doneModal = new DoneModal();
+    this.doneModal = new DoneModal(() => this.handleCloseModal());
 
     this.timeLeft = new Timer(FOCUS_TIME, 'timer');
     this.totalFocusTime = new Timer(0, 'totalFocusTime');
     this.timerWorker = new TimerWorker();
     this.timerWorker.addEventListener(this.handleWorkerMessage);
+  }
+
+  handleCloseModal() {
+    if (this.state === 'finished-break-time') {
+      this.focus();
+      return;
+    }
+    if (this.state === 'finished-focus-time') {
+      this.break();
+      return;
+    }
   }
 
   handleWorkerMessage = ({ data }) => {
