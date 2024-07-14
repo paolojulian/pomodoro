@@ -1,3 +1,3 @@
-import Pomodoro from './pomodoro.js';
+import Pomodoro from './AppPomodoro';
 
 new Pomodoro();
