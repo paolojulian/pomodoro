@@ -3,12 +3,14 @@ import { Timer } from './Timer.js';
 import TimerWorker from './TimerWorker.js';
 
 /**
- * @typedef {'initial' | 'focused' | 'taking-a-break' | 'break'} States
+ * @typedef {'initial' | 'focused' | 'taking-a-break' | 'finished-break-time' | 'finished-focus-time'} States
  */
 
 // TODO - convert to local storage later for user settings
-const FOCUS_TIME = 25 * 60;
-const BREAK_TIME = 5 * 60;
+// const FOCUS_TIME = 25 * 60;
+// const BREAK_TIME = 5 * 60;
+const FOCUS_TIME = 10;
+const BREAK_TIME = 5;
 
 export default class Pomodoro {
   /**
@@ -54,8 +56,8 @@ export default class Pomodoro {
     this.controlButtons = new ControlButtons();
     this.controlButtons.focusBtn.addEventListener('click', () => this.focus());
     this.controlButtons.breakBtn.addEventListener('click', () => this.break());
-    this.controlButtons.stopFocusBtn.addEventListener('click', () =>
-      this.stop()
+    this.controlButtons.takeEarlyBreakBtn.addEventListener('click', () =>
+      this.takeEarlyBreak()
     );
 
     this.timeLeft = new Timer(FOCUS_TIME, 'timer');
@@ -88,27 +90,16 @@ export default class Pomodoro {
 
   /**
    * Handles the timer finishing.
-   * If the state is 'focused', the timer will switch to 'break'.
-   * If the state is 'break', the timer will switch to 'focused'.
    */
   onTimerFinished() {
     this.timerWorker.stop();
 
-    // If the focus time has finished, prep the break time
     if (this.state === 'focused') {
-      return this.setState('break');
+      return this.setState('finished-focus-time');
     }
 
     if (this.state === 'taking-a-break') {
-      this.timeLeft.resetTime(this.getFocusTime());
-      this.controlButtons.showTakingABreakState();
-      this.titleEl.textContent = 'Break time is over!';
-      return;
-    }
-
-    // If the break time has finished, prep the focus time
-    if (this.state === 'break') {
-      return this.setState('focused');
+      return this.setState('finished-break-time');
     }
   }
 
@@ -134,13 +125,19 @@ export default class Pomodoro {
     this.timerWorker.start();
   }
 
-  stop() {
-    if (this.state === 'initial' || this.state === 'taking-a-break') {
+  /**
+   * This handles the user taking an early break.
+   * only available on "Focus" mode.
+   * @returns {void}
+   */
+  takeEarlyBreak() {
+    if (this.state !== 'focused') {
       return;
     }
 
     this.timerWorker.stop();
-    this.setState('break');
+    this.setState('taking-a-break');
+    this.timerWorker.start();
   }
 
   /**
@@ -151,19 +148,24 @@ export default class Pomodoro {
     this.state = state;
     switch (state) {
       case 'focused':
-        this.titleEl.textContent = 'Focus on your task!';
+        this.titleEl.textContent = 'Focus on your task';
         this.timeLeft.resetTime(this.getFocusTime());
         this.controlButtons.showFocusState();
         break;
-      case 'break':
-        this.controlButtons.showStoppedOnBreakState();
-        this.titleEl.textContent = 'Take a break!';
+      case 'finished-focus-time':
+        this.controlButtons.showFinishedFocusState();
+        this.titleEl.textContent = 'Take a break';
         this.timeLeft.resetTime(this.getBreakTime());
         break;
       case 'taking-a-break':
         this.titleEl.textContent = 'Break time';
         this.controlButtons.showTakingABreakState();
         this.timeLeft.resetTime(this.getBreakTime());
+        break;
+      case 'finished-break-time':
+        this.titleEl.textContent = 'Break time is over';
+        this.controlButtons.showTakingABreakState();
+        this.timeLeft.resetTime(this.getFocusTime());
         break;
       default:
         this.titleEl.textContent = 'Pomodoro';

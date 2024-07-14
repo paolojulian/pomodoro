@@ -1,16 +1,16 @@
 export default class ControlButtons {
   focusBtn;
-  stopFocusBtn;
+  takeEarlyBreakBtn;
   breakBtn;
 
   constructor() {
     this.focusBtn = document.getElementById('startFocusBtn');
-    this.stopFocusBtn = document.getElementById('stopFocusBtn');
+    this.takeEarlyBreakBtn = document.getElementById('takeEarlyBreakBtn');
     this.breakBtn = document.getElementById('takeABreakBtn');
   }
 
   showFocusState() {
-    this.stopFocusBtn.style.display = 'flex';
+    this.takeEarlyBreakBtn.style.display = 'flex';
 
     this.focusBtn.style.display = 'none';
     this.breakBtn.style.display = 'none';
@@ -19,14 +19,14 @@ export default class ControlButtons {
   showTakingABreakState() {
     this.focusBtn.style.display = 'flex';
 
-    this.stopFocusBtn.style.display = 'none';
+    this.takeEarlyBreakBtn.style.display = 'none';
     this.breakBtn.style.display = 'none';
   }
 
-  showStoppedOnBreakState() {
+  showFinishedFocusState() {
     this.breakBtn.style.display = 'flex';
 
     this.focusBtn.style.display = 'none';
-    this.stopFocusBtn.style.display = 'none';
+    this.takeEarlyBreakBtn.style.display = 'none';
   }
 }
