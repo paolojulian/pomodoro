@@ -146,7 +146,14 @@ export default class Pomodoro {
    * @returns {number} - The time left percentage e.g. 0.4 for 40%
    */
   getTimeLeftPercentage() {
-    return this.timeLeft.time_sec / this.getFocusTime();
+    let totalTime = this.getFocusTime();
+    if (this.state === 'focused') {
+      totalTime = this.getFocusTime();
+    } else if (this.state === 'taking-a-break') {
+      totalTime = this.getBreakTime();
+    }
+
+    return this.timeLeft.time_sec / totalTime;
   }
 
   /**
