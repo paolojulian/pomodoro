@@ -48,6 +48,10 @@ body,
   }
 }
 
+.uppercase {
+  text-transform: uppercase;
+}
+
 body,
 .text-black {
   color: var(--black);

@@ -1,15 +1,14 @@
-import { Timer } from './timer.js';
-import TimerWorker from './timerWorker.js';
+import ControlButtons from './ControlButtons.js';
+import { Timer } from './Timer.js';
+import TimerWorker from './TimerWorker.js';
 
 /**
- * @typedef {'initial' | 'focused' | 'break'} States
+ * @typedef {'initial' | 'focused' | 'taking-a-break' | 'break'} States
  */
 
 // TODO - convert to local storage later for user settings
-// const FOCUS_TIME = 25 * 60;
-// const BREAK_TIME = 5 * 60;
-const FOCUS_TIME = 5;
-const BREAK_TIME = 5;
+const FOCUS_TIME = 25 * 60;
+const BREAK_TIME = 5 * 60;
 
 export default class Pomodoro {
   /**
@@ -18,6 +17,12 @@ export default class Pomodoro {
    * @default 'initial'
    */
   state = 'initial';
+
+  /**
+   * Represents the control buttons.
+   * @type {ControlButtons}
+   */
+  controlButtons;
 
   /**
    * Represents the countdown timer.
@@ -38,27 +43,20 @@ export default class Pomodoro {
   timerWorker;
 
   /**
-   * Represents the focus button.
-   * @type {HTMLButtonElement}
-   */
-  focusBtn;
-
-  /**
-   * Represents the "Take a break" button.
-   * @type {HTMLButtonElement}
-   */
-  breakBtn;
-
-  /**
    * Represents the title element.
    * @type {HTMLHeadingElement}
    */
   titleEl;
 
   constructor() {
-    this.focusBtn = document.getElementById('startFocusBtn');
-    this.breakBtn = document.getElementById('takeABreakBtn');
     this.titleEl = document.getElementById('title');
+
+    this.controlButtons = new ControlButtons();
+    this.controlButtons.focusBtn.addEventListener('click', () => this.focus());
+    this.controlButtons.breakBtn.addEventListener('click', () => this.break());
+    this.controlButtons.stopFocusBtn.addEventListener('click', () =>
+      this.stop()
+    );
 
     this.timeLeft = new Timer(FOCUS_TIME, 'timer');
     this.totalFocusTime = new Timer(0, 'totalFocusTime');
@@ -101,20 +99,17 @@ export default class Pomodoro {
       return this.setState('break');
     }
 
+    if (this.state === 'taking-a-break') {
+      this.timeLeft.resetTime(this.getFocusTime());
+      this.controlButtons.showTakingABreakState();
+      this.titleEl.textContent = 'Break time is over!';
+      return;
+    }
+
     // If the break time has finished, prep the focus time
     if (this.state === 'break') {
       return this.setState('focused');
     }
-  }
-
-  showFocusBtn() {
-    this.focusBtn.style.display = 'flex';
-    this.breakBtn.style.display = 'none';
-  }
-
-  showBreakBtn() {
-    this.focusBtn.style.display = 'none';
-    this.breakBtn.style.display = 'flex';
   }
 
   getFocusTime() {
@@ -126,28 +121,26 @@ export default class Pomodoro {
   }
 
   focus() {
-    if (this.state === 'focused') {
-      return;
-    }
-
     // Ensure the timer is stopped before starting it
     this.timerWorker.stop();
-
     this.setState('focused');
-    this.showBreakBtn();
     this.timerWorker.start();
   }
 
   break() {
-    if (this.state === 'break' || this.state === 'initial') {
+    // Ensure the timer is stopped before starting it
+    this.timerWorker.stop();
+    this.setState('taking-a-break');
+    this.timerWorker.start();
+  }
+
+  stop() {
+    if (this.state === 'initial' || this.state === 'taking-a-break') {
       return;
     }
 
-    // Ensure the timer is stopped before starting it
     this.timerWorker.stop();
     this.setState('break');
-    this.timerWorker.start();
-    this.showFocusBtn();
   }
 
   /**
@@ -160,9 +153,16 @@ export default class Pomodoro {
       case 'focused':
         this.titleEl.textContent = 'Focus on your task!';
         this.timeLeft.resetTime(this.getFocusTime());
+        this.controlButtons.showFocusState();
         break;
       case 'break':
+        this.controlButtons.showStoppedOnBreakState();
         this.titleEl.textContent = 'Take a break!';
+        this.timeLeft.resetTime(this.getBreakTime());
+        break;
+      case 'taking-a-break':
+        this.titleEl.textContent = 'Break time';
+        this.controlButtons.showTakingABreakState();
         this.timeLeft.resetTime(this.getBreakTime());
         break;
       default:
