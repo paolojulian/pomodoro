@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pomodoro w/ Time Log</title>
+    <meta
+      name="description"
+      content="A Pomodoro app with a twist: it includes an upward timer during FOCUS mode to help users log their work hours for company records."
+    />
+    <link rel="stylesheet" href="css/preflight.css" />
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/typography.css" />
+    <link rel="stylesheet" href="css/button.css" />
+    <!-- <link rel="manifest" href="manifest.json" /> -->
+    <!-- <link rel="icon" href="images/favicon.ico" type="image/x-icon" /> -->
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1 class="text-heading-sm text-gray">POMODORO</h1>
+      </header>
+      <main class="stack">
+        <div class="image-container">
+          <img id="focusMode" src="/images/app-icons/focus-mode.png" />
+          <!-- <img id="takingABreak" src="/images/app-icons/taking-a-break.png" /> -->
+        </div>
+        <div class="stack time-container">
+          <div id="timer" class="text-heading-xl">25:00</div>
+          <div class="time-elapsed-container text-body">
+            <span> Total Focus Time: <span id="timeElapsed">12:04</span> </span>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_3013_9168)">
+                <path
+                  d="M4 3.99993V8.99993H4.582M4.582 8.99993C5.24585 7.35806 6.43568 5.98284 7.96503 5.08979C9.49438 4.19674 11.2768 3.83634 13.033 4.06507C14.7891 4.29379 16.4198 5.09872 17.6694 6.3537C18.919 7.60869 19.7168 9.24279 19.938 10.9999M4.582 8.99993H9M20 19.9999V14.9999H19.419M19.419 14.9999C18.7542 16.6408 17.564 18.015 16.0348 18.9072C14.5056 19.7995 12.7237 20.1594 10.9681 19.9308C9.21246 19.7022 7.5822 18.8978 6.33253 17.6437C5.08287 16.3895 4.28435 14.7564 4.062 12.9999M19.419 14.9999H15"
+                  stroke="#0D0D0D"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_3013_9168">
+                  <rect width="24" height="24" rx="4" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+        </div>
+        <div class="button-container">
+          <button
+            id="startFocus"
+            class="button button-primary text-heading-sm text-white"
+          >
+            Focus
+          </button>
+          <!-- <button
+            id="startBreak"
+            class="button button-gray text-heading-sm text-white"
+          >
+            Take a break
+          </button> -->
+        </div>
+      </main>
+      <footer>
+        <!-- <p>&copy; 2024 Pomodoro Timer App</p> -->
+      </footer>
+    </div>
+    <script src="js/app.js"></script>
+    <script src="js/pomodoro.js"></script>
+    <script>
+      // Register service worker for offline functionality
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+          .register('/service-worker.js')
+          .then((registration) => console.log('Service Worker registered'))
+          .catch((error) =>
+            console.log('Service Worker registration failed:', error)
+          );
+      }
+    </script>
+  </body>
+</html>

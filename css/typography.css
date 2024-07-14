@@ -1,0 +1,62 @@
+@font-face {
+  font-family: 'AvantGardeGothic-Regular';
+  src: url('../fonts/AvantGardeGothic/Regular.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AvantGardeGothic-Medium';
+  src: url('../fonts/AvantGardeGothic/Medium.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AvantGardeGothic-Bold';
+  src: url('../fonts/AvantGardeGothic/Bold.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body,
+.text-body {
+  font-family: 'AvantGardeGothic-Regular', Roboto, sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+}
+
+.text-heading-sm {
+  font-family: 'AvantGardeGothic-Medium', Roboto, sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.4em;
+}
+
+.text-heading-xl {
+  font-family: 'AvantGardeGothic-Bold', Roboto, sans-serif;
+  font-size: 6rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 6rem;
+}
+
+@media (min-width: 768px) {
+  .text-heading-xl {
+    font-size: 7rem;
+    line-height: 6rem;
+  }
+}
+
+body,
+.text-black {
+  color: var(--black);
+}
+
+.text-gray {
+  color: var(--gray);
+}
+
+.text-white {
+  color: var(--white);
+}
