@@ -92,9 +92,19 @@ export default class Pomodoro {
     }
 
     this.timeLeft.countDown();
+    this.images.setOpacity(this.getTimeLeftPercentage());
     if (this.state === 'focused') {
       this.totalFocusTime.countUp();
     }
+  }
+
+  /**
+   * Calculates the time left percentage.
+   * The minimum opacity is 20
+   * @returns {number} - The time left percentage e.g. 0.4 for 40%
+   */
+  getTimeLeftPercentage() {
+    return this.timeLeft.time_sec / this.getFocusTime();
   }
 
   /**
