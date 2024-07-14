@@ -1,6 +1,6 @@
 import { formatTime } from './utils/timeFormat.utils.js';
 
-export class Timer {
+export default class Timer {
   /**
    * Represents the timer element
    * @type {HTMLSpanElement}

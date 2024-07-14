@@ -2,7 +2,7 @@ import AppAudio from './Audio.js';
 import ControlButtons from './ControlButtons.js';
 import DoneModal from './DoneModal.js';
 import Images from './Images.js';
-import { Timer } from './Timer.js';
+import Timer from './Timer.js';
 import TimerWorker from './TimerWorker.js';
 
 /**
