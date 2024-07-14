@@ -1,4 +1,5 @@
 import ControlButtons from './ControlButtons.js';
+import Images from './Images.js';
 import { Timer } from './Timer.js';
 import TimerWorker from './TimerWorker.js';
 
@@ -25,6 +26,12 @@ export default class Pomodoro {
    * @type {ControlButtons}
    */
   controlButtons;
+
+  /**
+   * Represents the images
+   * @type {Images}
+   */
+  images;
 
   /**
    * Represents the countdown timer.
@@ -60,6 +67,8 @@ export default class Pomodoro {
       this.takeEarlyBreak()
     );
 
+    this.images = new Images();
+    this.images.showFocusState();
     this.timeLeft = new Timer(FOCUS_TIME, 'timer');
     this.totalFocusTime = new Timer(0, 'totalFocusTime');
     this.timerWorker = new TimerWorker();
@@ -150,6 +159,7 @@ export default class Pomodoro {
       case 'focused':
         this.titleEl.textContent = 'Focus on your task';
         this.timeLeft.resetTime(this.getFocusTime());
+        this.images.showFocusState();
         this.controlButtons.showFocusState();
         break;
       case 'finished-focus-time':
@@ -161,6 +171,7 @@ export default class Pomodoro {
         this.titleEl.textContent = 'Break time';
         this.controlButtons.showTakingABreakState();
         this.timeLeft.resetTime(this.getBreakTime());
+        this.images.showBreakState();
         break;
       case 'finished-break-time':
         this.titleEl.textContent = 'Break time is over';
