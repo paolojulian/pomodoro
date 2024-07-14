@@ -45,7 +45,6 @@ object {
   vertical-align: middle;
 }
 
-
 img,
 video {
   max-width: 100%;
@@ -59,4 +58,10 @@ video {
   border-width: 0;
   border-style: solid;
   border-color: theme('borderColor.DEFAULT', currentColor);
+}
+
+button {
+  background-color: transparent;
+  padding: 0;
+  cursor: pointer;
 }

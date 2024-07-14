@@ -10,10 +10,8 @@ import TimerWorker from './TimerWorker.js';
  */
 
 // TODO - convert to local storage later for user settings
-// const FOCUS_TIME = 25 * 60;
-// const BREAK_TIME = 5 * 60;
-const FOCUS_TIME = 10;
-const BREAK_TIME = 5;
+const FOCUS_TIME = 25 * 60;
+const BREAK_TIME = 5 * 60;
 
 export default class Pomodoro {
   /**
@@ -60,6 +58,12 @@ export default class Pomodoro {
   totalFocusTime;
 
   /**
+   * Represents the reset total focus time element.
+   * @type {HTMLButtonElement}
+   */
+  resetTotalFocusTimeBtnEl;
+
+  /**
    * Represents the Web Worker instance.
    * @type {TimerWorker}
    */
@@ -73,6 +77,13 @@ export default class Pomodoro {
 
   constructor() {
     this.titleEl = document.getElementById('title');
+
+    this.resetTotalFocusTimeBtnEl = document.getElementById(
+      'resetTotalFocusTimeBtn'
+    );
+    this.resetTotalFocusTimeBtnEl.addEventListener('click', () => {
+      this.totalFocusTime.resetTime(0);
+    });
 
     this.controlButtons = new ControlButtons();
     this.controlButtons.focusBtn.addEventListener('click', () => this.focus());
@@ -90,6 +101,7 @@ export default class Pomodoro {
 
     this.timeLeft = new Timer(FOCUS_TIME, 'timer');
     this.totalFocusTime = new Timer(0, 'totalFocusTime');
+
     this.timerWorker = new TimerWorker();
     this.timerWorker.addEventListener(this.handleWorkerMessage);
   }

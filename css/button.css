@@ -32,3 +32,15 @@
 .button:active {
   filter: brightness(80%);
 }
+
+.button-icon {
+  transition: transform 200ms ease;
+}
+
+.button-icon:hover {
+  transform: scale(1.2) rotate(120deg);
+}
+
+.button-icon:active {
+  transform: scale(0.9) rotate(360deg);
+}
