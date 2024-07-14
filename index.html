@@ -19,17 +19,23 @@
   <body>
     <div class="container">
       <header>
-        <h1 class="text-heading-sm text-gray">POMODORO</h1>
+        <h1 id="title" class="text-heading-sm text-gray">POMODORO</h1>
       </header>
       <main class="stack">
         <div class="image-container">
           <img id="focusMode" src="/images/app-icons/focus-mode.png" />
-          <!-- <img id="takingABreak" src="/images/app-icons/taking-a-break.png" /> -->
+          <img
+            id="takingABreak"
+            src="/images/app-icons/taking-a-break.png"
+            style="display: none"
+          />
         </div>
         <div class="stack time-container">
           <div id="timer" class="text-heading-xl">25:00</div>
           <div class="time-elapsed-container text-body">
-            <span> Total Focus Time: <span id="timeElapsed">12:04</span> </span>
+            <span>
+              Total Focus Time: <span id="totalFocusTime">00:00</span>
+            </span>
             <svg
               width="24"
               height="24"
@@ -56,25 +62,31 @@
         </div>
         <div class="button-container">
           <button
-            id="startFocus"
+            id="startFocusBtn"
             class="button button-primary text-heading-sm text-white"
           >
-            Focus
+            Start
           </button>
-          <!-- <button
-            id="startBreak"
-            class="button button-gray text-heading-sm text-white"
+          <button
+            id="stopFocusBtn"
+            class="button button-black text-heading-sm text-white"
+          >
+            Stop Focus
+          </button>
+          <button
+            id="takeABreakBtn"
+            class="button button-black text-heading-sm text-white"
+            style="display: none"
           >
             Take a break
-          </button> -->
+          </button>
         </div>
       </main>
       <footer>
         <!-- <p>&copy; 2024 Pomodoro Timer App</p> -->
       </footer>
     </div>
-    <script src="js/app.js"></script>
-    <script src="js/pomodoro.js"></script>
+    <script type="module" src="js/app.js"></script>
     <script>
       // Register service worker for offline functionality
       if ('serviceWorker' in navigator) {
