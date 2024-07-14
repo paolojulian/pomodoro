@@ -13,8 +13,9 @@
     <link rel="stylesheet" href="css/styles.css" />
     <link rel="stylesheet" href="css/typography.css" />
     <link rel="stylesheet" href="css/button.css" />
-    <!-- <link rel="manifest" href="manifest.json" /> -->
-    <!-- <link rel="icon" href="images/favicon.ico" type="image/x-icon" /> -->
+    <link rel="stylesheet" href="css/modals.css" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon" />
   </head>
   <body>
     <audio id="pomodoroAlertAudio" preload="auto">
@@ -90,6 +91,21 @@
       <footer>
         <!-- <p>&copy; 2024 Pomodoro Timer App</p> -->
       </footer>
+    </div>
+    <div id="doneModal" class="fullscreen-modal" role="menu">
+      <!-- Title -->
+      <div class="doneModal__title">
+        <h2 id="doneModalTitle" class="text-heading-lg uppercase">
+          Break time is over
+        </h2>
+      </div>
+      <!-- Tap here -->
+      <button
+        id="tapToProceedBtn"
+        class="button button-transparent doneModal__tapToProceedBtn"
+      >
+        Tap here to start focus
+      </button>
     </div>
     <script type="module" src="js/app.js"></script>
     <script>

@@ -1,0 +1,32 @@
+.fullscreen-modal {
+  position: absolute;
+  inset: 0;
+}
+
+#doneModal {
+  background-color: var(--primary);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#doneModal .doneModal__title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: 1.5rem;
+  padding-inline: 1rem;
+  background-color: var(--white);
+  width: 100%;
+  text-align: center;
+}
+
+#doneModal .doneModal__tapToProceedBtn {
+  font-size: 1rem;
+  text-transform: none;
+  color: var(--white);
+}

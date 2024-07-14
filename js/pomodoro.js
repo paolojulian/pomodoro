@@ -1,5 +1,6 @@
 import AppAudio from './Audio.js';
 import ControlButtons from './ControlButtons.js';
+import DoneModal from './DoneModal.js';
 import Images from './Images.js';
 import { Timer } from './Timer.js';
 import TimerWorker from './TimerWorker.js';
@@ -21,6 +22,12 @@ export default class Pomodoro {
    * @default 'initial'
    */
   state = 'initial';
+
+  /**
+   * Represents the modal state.
+   * @type {DoneModal}
+   */
+  doneModal;
 
   /**
    * Represents the control buttons.
@@ -79,6 +86,8 @@ export default class Pomodoro {
 
     this.appAudio = new AppAudio();
 
+    this.doneModal = new DoneModal();
+
     this.timeLeft = new Timer(FOCUS_TIME, 'timer');
     this.totalFocusTime = new Timer(0, 'totalFocusTime');
     this.timerWorker = new TimerWorker();
@@ -125,11 +134,17 @@ export default class Pomodoro {
     this.timerWorker.stop();
 
     if (this.state === 'focused') {
-      return this.setState('finished-focus-time');
+      this.doneModal.openModal('finished-focus');
+      this.setState('finished-focus-time');
+
+      return;
     }
 
     if (this.state === 'taking-a-break') {
-      return this.setState('finished-break-time');
+      this.doneModal.openModal('finished-break');
+      this.setState('finished-break-time');
+
+      return;
     }
   }
 
