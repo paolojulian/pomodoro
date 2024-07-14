@@ -1,3 +1,4 @@
+import AppAudio from './Audio.js';
 import ControlButtons from './ControlButtons.js';
 import Images from './Images.js';
 import { Timer } from './Timer.js';
@@ -26,6 +27,12 @@ export default class Pomodoro {
    * @type {ControlButtons}
    */
   controlButtons;
+
+  /**
+   * Represents the audio files.
+   * @type {AppAudio}
+   */
+  appAudio;
 
   /**
    * Represents the images
@@ -69,6 +76,9 @@ export default class Pomodoro {
 
     this.images = new Images();
     this.images.showFocusState();
+
+    this.appAudio = new AppAudio();
+
     this.timeLeft = new Timer(FOCUS_TIME, 'timer');
     this.totalFocusTime = new Timer(0, 'totalFocusTime');
     this.timerWorker = new TimerWorker();
@@ -111,6 +121,7 @@ export default class Pomodoro {
    * Handles the timer finishing.
    */
   onTimerFinished() {
+    this.appAudio.play();
     this.timerWorker.stop();
 
     if (this.state === 'focused') {
@@ -131,6 +142,7 @@ export default class Pomodoro {
   }
 
   focus() {
+    this.appAudio.stop();
     // Ensure the timer is stopped before starting it
     this.timerWorker.stop();
     this.setState('focused');
@@ -138,6 +150,7 @@ export default class Pomodoro {
   }
 
   break() {
+    this.appAudio.stop();
     // Ensure the timer is stopped before starting it
     this.timerWorker.stop();
     this.setState('taking-a-break');
@@ -154,6 +167,7 @@ export default class Pomodoro {
       return;
     }
 
+    this.appAudio.stop();
     this.timerWorker.stop();
     this.setState('taking-a-break');
     this.timerWorker.start();
