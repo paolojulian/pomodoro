@@ -1,0 +1,27 @@
+{
+  "name": "pomodoro",
+  "version": "1.0.0",
+  "description": "A Pomodoro app with a twist: it includes an upward timer during FOCUS mode to help users log their work hours for company records.",
+  "main": "js/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paolojulian/pomodoro.git"
+  },
+  "keywords": [
+    "Pomodoro",
+    "Log Timer"
+  ],
+  "author": "Paolo Vincent Julian",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/paolojulian/pomodoro/issues"
+  },
+  "homepage": "https://github.com/paolojulian/pomodoro#readme",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.4"
+  }
+}
