@@ -4,6 +4,8 @@
   "description": "A Pomodoro app with a twist: it includes an upward timer during FOCUS mode to help users log their work hours for company records.",
   "main": "js/app.js",
   "scripts": {
+    "start": "tsc && http-server .",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,5 +25,8 @@
   "devDependencies": {
     "@types/node": "^22.0.0",
     "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "http-server": "^14.1.1"
   }
 }
