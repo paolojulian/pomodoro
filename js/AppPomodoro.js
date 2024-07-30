@@ -1,9 +1,9 @@
-import AppAudio from './Audio.js';
-import ControlButtons from './ControlButtons.js';
-import DoneModal from './DoneModal.js';
-import Images from './Images.js';
-import TimerWorker from './AppTimerWorker.js';
-import Timer from './AppTimer.js';
+import AppAudio from "./Audio.js";
+import ControlButtons from "./ControlButtons.js";
+import DoneModal from "./DoneModal.js";
+import Images from "./Images.js";
+import TimerWorker from "./AppTimerWorker.js";
+import Timer from "./AppTimer.js";
 
 /**
  * @typedef {'initial' | 'focused' | 'taking-a-break' | 'finished-break-time' | 'finished-focus-time'} States
@@ -19,7 +19,7 @@ export default class Pomodoro {
    * @type {States} Possible values are 'initial', 'focus', and 'break'.
    * @default 'initial'
    */
-  state = 'initial';
+  state = "initial";
 
   /**
    * Represents the modal state.
@@ -76,19 +76,19 @@ export default class Pomodoro {
   titleEl;
 
   constructor() {
-    this.titleEl = document.getElementById('title');
+    this.titleEl = document.getElementById("title");
 
     this.resetTotalFocusTimeBtnEl = document.getElementById(
-      'resetTotalFocusTimeBtn'
+      "resetTotalFocusTimeBtn"
     );
-    this.resetTotalFocusTimeBtnEl.addEventListener('click', () => {
+    this.resetTotalFocusTimeBtnEl.addEventListener("click", () => {
       this.totalFocusTime.resetTime(0);
     });
 
     this.controlButtons = new ControlButtons();
-    this.controlButtons.focusBtn.addEventListener('click', () => this.focus());
-    this.controlButtons.breakBtn.addEventListener('click', () => this.break());
-    this.controlButtons.takeEarlyBreakBtn.addEventListener('click', () =>
+    this.controlButtons.focusBtn.addEventListener("click", () => this.focus());
+    this.controlButtons.breakBtn.addEventListener("click", () => this.break());
+    this.controlButtons.takeEarlyBreakBtn.addEventListener("click", () =>
       this.takeEarlyBreak()
     );
 
@@ -99,26 +99,26 @@ export default class Pomodoro {
 
     this.doneModal = new DoneModal(() => this.handleCloseModal());
 
-    this.timeLeft = new Timer(FOCUS_TIME, 'timer');
-    this.totalFocusTime = new Timer(0, 'totalFocusTime');
+    this.timeLeft = new Timer(FOCUS_TIME, "timer");
+    this.totalFocusTime = new Timer(0, "totalFocusTime");
 
     this.timerWorker = new TimerWorker();
     this.timerWorker.addEventListener(this.handleWorkerMessage);
   }
 
   handleCloseModal() {
-    if (this.state === 'finished-break-time') {
+    if (this.state === "finished-break-time") {
       this.focus();
       return;
     }
-    if (this.state === 'finished-focus-time') {
+    if (this.state === "finished-focus-time") {
       this.break();
       return;
     }
   }
 
   handleWorkerMessage = ({ data }) => {
-    if (data === 'tick') {
+    if (data === "tick") {
       this.onTick();
     }
   };
@@ -135,7 +135,7 @@ export default class Pomodoro {
 
     this.timeLeft.countDown();
     this.images.setOpacity(this.getTimeLeftPercentage());
-    if (this.state === 'focused') {
+    if (this.state === "focused") {
       this.totalFocusTime.countUp();
     }
   }
@@ -147,9 +147,9 @@ export default class Pomodoro {
    */
   getTimeLeftPercentage() {
     let totalTime = this.getFocusTime();
-    if (this.state === 'focused') {
+    if (this.state === "focused") {
       totalTime = this.getFocusTime();
-    } else if (this.state === 'taking-a-break') {
+    } else if (this.state === "taking-a-break") {
       totalTime = this.getBreakTime();
     }
 
@@ -163,16 +163,16 @@ export default class Pomodoro {
     this.appAudio.play();
     this.timerWorker.stop();
 
-    if (this.state === 'focused') {
-      this.doneModal.openModal('finished-focus');
-      this.setState('finished-focus-time');
+    if (this.state === "focused") {
+      this.doneModal.openModal("finished-focus");
+      this.setState("finished-focus-time");
 
       return;
     }
 
-    if (this.state === 'taking-a-break') {
-      this.doneModal.openModal('finished-break');
-      this.setState('finished-break-time');
+    if (this.state === "taking-a-break") {
+      this.doneModal.openModal("finished-break");
+      this.setState("finished-break-time");
 
       return;
     }
@@ -190,7 +190,7 @@ export default class Pomodoro {
     this.appAudio.stop();
     // Ensure the timer is stopped before starting it
     this.timerWorker.stop();
-    this.setState('focused');
+    this.setState("focused");
     this.timerWorker.start();
   }
 
@@ -198,7 +198,7 @@ export default class Pomodoro {
     this.appAudio.stop();
     // Ensure the timer is stopped before starting it
     this.timerWorker.stop();
-    this.setState('taking-a-break');
+    this.setState("taking-a-break");
     this.timerWorker.start();
   }
 
@@ -208,13 +208,13 @@ export default class Pomodoro {
    * @returns {void}
    */
   takeEarlyBreak() {
-    if (this.state !== 'focused') {
+    if (this.state !== "focused") {
       return;
     }
 
     this.appAudio.stop();
     this.timerWorker.stop();
-    this.setState('taking-a-break');
+    this.setState("taking-a-break");
     this.timerWorker.start();
   }
 
@@ -225,30 +225,30 @@ export default class Pomodoro {
   setState(state) {
     this.state = state;
     switch (state) {
-      case 'focused':
-        this.titleEl.textContent = 'Focus on your task';
+      case "focused":
+        this.titleEl.textContent = "Focus on your task";
         this.timeLeft.resetTime(this.getFocusTime());
         this.images.showFocusState();
         this.controlButtons.showFocusState();
         break;
-      case 'finished-focus-time':
+      case "finished-focus-time":
         this.controlButtons.showFinishedFocusState();
-        this.titleEl.textContent = 'Take a break';
+        this.titleEl.textContent = "Take a break";
         this.timeLeft.resetTime(this.getBreakTime());
         break;
-      case 'taking-a-break':
-        this.titleEl.textContent = 'Break time';
+      case "taking-a-break":
+        this.titleEl.textContent = "Break time";
         this.controlButtons.showTakingABreakState();
         this.timeLeft.resetTime(this.getBreakTime());
         this.images.showBreakState();
         break;
-      case 'finished-break-time':
-        this.titleEl.textContent = 'Break time is over';
+      case "finished-break-time":
+        this.titleEl.textContent = "Break time is over";
         this.controlButtons.showTakingABreakState();
         this.timeLeft.resetTime(this.getFocusTime());
         break;
       default:
-        this.titleEl.textContent = 'Pomodoro';
+        this.titleEl.textContent = "Pomodoro";
         break;
     }
   }
